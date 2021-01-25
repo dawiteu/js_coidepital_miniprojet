@@ -30,7 +30,7 @@ let pat3 = new Personne("Sangoku", 80, "poche", "malade", "404");
 let pat4 = new Personne("DarthVader", 110, "poche", "malade", "azmatique"); 
 let pat5 = new Personne("Semicolon", 60, "poche", "malade", "syntaxError"); 
 
-let pat6 = new Personne("jspKi", 50, "poche", "malade", "covid");
+//let pat6 = new Personne("jspKi", 50, "poche", "malade", "covid");
 let patients = []; 
 
 let traitements = [
@@ -88,7 +88,6 @@ placePatientSalleAtt();
 
 salleDattente.etat(); 
 
-
 for(let i=0; i<patients.length; i++){
 
     const patActuel = patients[i]; 
@@ -108,25 +107,24 @@ for(let i=0; i<patients.length; i++){
             console.log(`${patActuel.nom} a payer le docteur. `); 
             console.log(`${patActuel.nom} a maintenant ${patActuel.argent}€.`);
             cabinet.perspres.splice( cabinet.perspres.indexOf(patActuel.nom), 1); 
+            console.log(`${patActuel.nom} quitte le cabinet.`); 
             patActuel.seDeplace(pharmacie);
             console.log(`Le traitement de ${patActuel.nom} coute: ${trait.prix}€.`);
-            if(patActuel.argent >= trait.prix){
-
-            }else{
+            if(patActuel.argent <= trait.prix){
                 console.log(`${patActuel.nom} n'as pas assez.. pour payer le trait.`);
                 patActuel.vivant = 0; 
+                patActuel.eds = "décédé"; 
                 cim.perspres.push(patActuel); 
                 console.log(`${patActuel.nom} est mort. Il est au cimtiere a la plce: ${cim.perspres.indexOf(patActuel)}`);
+            }else{
+                patActuel.eds="guerri";
+                console.log(`${patActuel.nom} est guerri!`);
             }
         }else{
             console.log(`aucun remede possible`)
             patActuel.vivant = 0; 
             patActuel.eds = "décédé"; 
         }
-        
-        //for(let j=0; j<traitements.length; j++){
-        //   console.log(traitements[j]);
-        //}
         console.log('-------');
         salleDattente.etat();         
     }else{
@@ -136,6 +134,10 @@ for(let i=0; i<patients.length; i++){
 
 }
 
+
+console.log(`Ce jour, au total, le doc. ${Docteur.nom} s'est fait ${Docteur.argent} euros.`)
+
+console.log(patients);
 
 
 /*
