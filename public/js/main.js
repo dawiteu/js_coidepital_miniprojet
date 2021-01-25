@@ -1,7 +1,6 @@
 // les import's 
 import {Endroit} from "./class/endroit.js"; 
-import {Personne} from "./class/pers.js"; 
-
+import {Docteur, Patient, Personne} from "./class/pers.js"; 
 
 
 // constructeur\s 
@@ -9,28 +8,30 @@ let chat = {
     type:"Animal", 
     race: "sphynx",
     maul: function(){
-        setInterval( function() {
+        //setInterval( function() {
             console.log("miau"); 
-        }, 1000)
+        //}, 2000);
     }
 }
 //chat.maul(); 
 
+//endroits 
 let cabinet = new Endroit("Cabinet");
 let salleDattente = new Endroit("Salle d'attente");
 let pharmacie = new Endroit("pharmatie"); 
 let cim = new Endroit("Cimtière"); 
 
+// personnes 
+let doct = new Docteur("Debuggteur", 0, cabinet); 
+//console.log(doct); 
+let pat1 = new Patient("Marcus", 100, "malade","mal indenté"); 
+let pat2 = new Patient("Optimus", 200, "malade", "unsave"); 
+let pat3 = new Patient("Sangoku", 80, "malade", "404");
+let pat4 = new Patient("DarthVader", 110, "malade", "azmatique"); 
+let pat5 = new Patient("Semicolon", 60, "malade", "syntaxError"); 
 
-let Docteur = new Personne("Debuggteur", 0, cabinet); 
+//console.log(pat1); 
 
-let pat1 = new Personne("Marcus", 100, "poche", "malade","mal indenté"); 
-let pat2 = new Personne("Optimus", 200, "poche", "malade", "unsave"); 
-let pat3 = new Personne("Sangoku", 80, "poche", "malade", "404");
-let pat4 = new Personne("DarthVader", 110, "poche", "malade", "azmatique"); 
-let pat5 = new Personne("Semicolon", 60, "poche", "malade", "syntaxError"); 
-
-//let pat6 = new Personne("jspKi", 50, "poche", "malade", "covid");
 let patients = []; 
 
 let traitements = [
@@ -63,7 +64,6 @@ let traitements = [
 
 //console.log(traitements); 
 
-
 //on deplace tout les patients ds la salle d'attente ; 
 function placePatientSalleAtt(){
     for(let i=1; i < Personne.nbpers; i++){
@@ -77,17 +77,11 @@ function placePatientSalleAtt(){
 }
 
 
-// le jeu 
-
-//salleDattente.etat(); 
-//cabinet.etat(); 
-
-Docteur.seDeplace(cabinet); 
+doct.seDeplace(cabinet); 
 
 placePatientSalleAtt(); 
 
 salleDattente.etat(); 
-
 for(let i=0; i<patients.length; i++){
 
     const patActuel = patients[i]; 
@@ -96,6 +90,7 @@ for(let i=0; i<patients.length; i++){
     if(patActuel.vivant == '1'){ // s'il est vivant ? 
         salleDattente.perspres.splice(salleDattente.perspres.indexOf(patActuel.nom), 1); 
         cabinet.perspres.push(patActuel); 
+        chat.maul();
         console.log(`${patActuel.nom} entre au cabinet.`);
         console.log(`La malaide de ${patActuel.nom} est ${patActuel.maladie}.`);
         let trait = traitements.find(traitements => traitements.maladie == patActuel.maladie);
@@ -103,7 +98,7 @@ for(let i=0; i<patients.length; i++){
             console.log(`Un remede existe pour cette pathologie du patient..`);
             console.log(`Le remede pour ${trait.maladie} c'est: ${trait.remede}.`);
             patActuel.argent-=50;
-            Docteur.argent+=50; 
+            doct.argent+=50; 
             console.log(`${patActuel.nom} a payer le docteur. `); 
             console.log(`${patActuel.nom} a maintenant ${patActuel.argent}€.`);
             cabinet.perspres.splice( cabinet.perspres.indexOf(patActuel.nom), 1); 
@@ -135,7 +130,7 @@ for(let i=0; i<patients.length; i++){
 }
 
 
-console.log(`Ce jour, au total, le doc. ${Docteur.nom} s'est fait ${Docteur.argent} euros.`)
+console.log(`Ce jour, au total, le doc. ${doct.nom} s'est fait ${doct.argent} euros.`)
 
 console.log(patients);
 
